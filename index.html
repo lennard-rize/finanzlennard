@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FinanzLennard - Finanzbildung auf YouTube</title>
+  <meta name="description" content="FinanzLennard - Aktien, ETFs, Vermögensaufbau und Finanzbildung auf YouTube. Kostenlos, verständlich, auf Deutsch." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --accent:     #5ce1e6;
+      --accent-dim: rgba(92,225,230,.12);
+      --accent-glow:rgba(92,225,230,.22);
+    }
+    [data-theme="dark"] {
+      --bg:       #0d0d0d;
+      --bg2:      #141414;
+      --bg3:      #1c1c1c;
+      --text:     #f0f0f0;
+      --text2:    #999999;
+      --border:   rgba(255,255,255,0.08);
+      --nav-bg:   rgba(13,13,13,0.9);
+      --shadow:   rgba(0,0,0,0.5);
+    }
+    [data-theme="light"] {
+      --bg:       #ffffff;
+      --bg2:      #f5f5f5;
+      --bg3:      #ebebeb;
+      --text:     #0d0d0d;
+      --text2:    #555555;
+      --border:   rgba(0,0,0,0.09);
+      --nav-bg:   rgba(255,255,255,0.9);
+      --shadow:   rgba(0,0,0,0.1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background .3s, color .3s;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2rem;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: background .3s, border-color .3s;
+    }
+    .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.55rem; letter-spacing: .06em;
+      color: var(--text); text-decoration: none; transition: color .2s;
+    }
+    .logo span { color: var(--accent); }
+    .nav-right { display: flex; align-items: center; gap: 1.8rem; }
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; }
+    .nav-links a {
+      color: var(--text2); text-decoration: none;
+      font-size: .875rem; font-weight: 500; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .theme-toggle {
+      width: 36px; height: 36px;
+      border: 1px solid var(--border); border-radius: 8px;
+      background: transparent; color: var(--text2);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: border-color .2s, color .2s; flex-shrink: 0;
+    }
+    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+    [data-theme="dark"]  .icon-sun  { display: none; }
+    [data-theme="dark"]  .icon-moon { display: block; }
+    [data-theme="light"] .icon-sun  { display: block; }
+    [data-theme="light"] .icon-moon { display: none; }
+    .nav-cta {
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .45rem 1rem; background: var(--accent);
+      color: #0d0d0d !important; font-weight: 700 !important;
+      font-size: .82rem !important; border-radius: 6px;
+      text-decoration: none; transition: opacity .2s, transform .15s;
+    }
+    .nav-cta:hover { opacity: .85; transform: translateY(-1px); }
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; background: none; border: none; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: var(--text); border-radius: 2px; transition: .3s;
+    }
+
+    /* MOBILE MENU */
+    .mobile-menu {
+      display: none; position: fixed; inset: 0;
+      background: var(--bg); z-index: 800;
+      flex-direction: column; align-items: center; justify-content: center; gap: 1.8rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: 'Bebas Neue', sans-serif; font-size: 2rem;
+      letter-spacing: .05em; color: var(--text); text-decoration: none; transition: color .2s;
+    }
+    .mobile-menu a:hover { color: var(--accent); }
+    .mobile-close {
+      position: absolute; top: 1.2rem; right: 1.5rem;
+      background: none; border: none; color: var(--text2);
+      font-size: 1.6rem; cursor: pointer;
+    }
+
+    /* SHARED */
+    section { padding: 6rem 2rem; }
+    .container { max-width: 1140px; margin: 0 auto; }
+    .section-alt { background: var(--bg2); }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-size: .72rem; font-weight: 700; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: .8rem;
+    }
+    .eyebrow::before {
+      content: ''; display: block; width: 20px; height: 2px; background: var(--accent);
+    }
+    h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1;
+      letter-spacing: .02em; margin-bottom: .9rem;
+    }
+    .lead { font-size: 1rem; color: var(--text2); max-width: 500px; line-height: 1.75; margin-bottom: 3rem; }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .75rem 1.6rem; background: var(--accent);
+      color: #0d0d0d; font-weight: 700; font-size: .9rem;
+      border-radius: 7px; text-decoration: none;
+      transition: opacity .2s, transform .15s, box-shadow .2s;
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+    .btn-primary:hover { opacity: .85; transform: translateY(-2px); box-shadow: 0 8px 28px var(--accent-glow); }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .75rem 1.6rem; border: 1px solid var(--border);
+      color: var(--text); font-weight: 500; font-size: .9rem;
+      border-radius: 7px; text-decoration: none;
+      transition: border-color .2s, background .2s;
+    }
+    .btn-outline:hover { border-color: var(--accent); background: var(--accent-dim); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding: 0 2rem; position: relative; overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute; width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(92,225,230,.06) 0%, transparent 70%);
+      top: 50%; right: 5%; transform: translateY(-50%); pointer-events: none;
+    }
+    .hero-content {
+      position: relative; max-width: 1140px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 4rem; padding-top: 4rem; width: 100%;
+    }
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.2rem, 7vw, 5.2rem); line-height: 1.0;
+      letter-spacing: .02em; margin-bottom: 1.3rem;
+    }
+    h1 em { font-style: normal; color: var(--accent); }
+    .hero-sub { font-size: 1.05rem; color: var(--text2); max-width: 420px; margin-bottom: 2rem; line-height: 1.75; }
+    .hero-actions { display: flex; gap: .9rem; flex-wrap: wrap; }
+    .hero-stats {
+      display: flex; gap: 2.5rem; margin-top: 3rem;
+      padding-top: 2rem; border-top: 1px solid var(--border);
+    }
+    .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--accent); line-height: 1; }
+    .stat-label { font-size: .72rem; color: var(--text2); text-transform: uppercase; letter-spacing: .1em; margin-top: .2rem; }
+
+    /* Channel card */
+    .channel-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.8rem;
+      width: 100%; max-width: 370px; margin-left: auto;
+      transition: background .3s, border-color .3s;
+    }
+    .channel-thumb {
+      background: var(--bg3); border-radius: 9px;
+      aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.2rem; position: relative; overflow: hidden;
+      cursor: pointer; border: 1px solid var(--border);
+    }
+    .play-btn {
+      width: 52px; height: 52px; background: var(--accent);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .play-btn:hover { transform: scale(1.1); box-shadow: 0 0 24px var(--accent-glow); }
+    .play-btn svg { margin-left: 3px; }
+    .thumb-badge {
+      position: absolute; bottom: .6rem; left: .6rem;
+      background: var(--accent); color: #0d0d0d;
+      font-size: .68rem; font-weight: 700;
+      padding: .18rem .5rem; border-radius: 4px; letter-spacing: .04em;
+    }
+    .channel-meta { display: flex; align-items: center; gap: .7rem; margin-bottom: 1rem; }
+    .avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--accent); display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: #0d0d0d; flex-shrink: 0;
+    }
+    .channel-name { font-weight: 700; font-size: .9rem; }
+    .channel-sub-label { font-size: .75rem; color: var(--text2); }
+    .video-title { font-size: .88rem; font-weight: 500; line-height: 1.45; margin-bottom: 1rem; }
+    .tag-row { display: flex; flex-wrap: wrap; gap: .35rem; }
+    .tag {
+      font-size: .68rem; font-weight: 600;
+      padding: .2rem .55rem; border-radius: 20px;
+      background: var(--accent-dim); color: var(--accent); letter-spacing: .03em;
+    }
+
+    /* TOPICS */
+    .topics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+    .topic-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.5rem;
+      transition: border-color .2s, transform .2s, box-shadow .2s, background .3s;
+    }
+    .topic-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 8px 30px var(--shadow); }
+    .topic-icon { font-size: 1.6rem; margin-bottom: .9rem; display: block; }
+    .topic-card h3 { font-size: .95rem; font-weight: 700; margin-bottom: .4rem; }
+    .topic-card p { font-size: .82rem; color: var(--text2); line-height: 1.6; }
+
+    /* VIDEOS */
+    .videos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.2rem; }
+    .video-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 10px; overflow: hidden;
+      text-decoration: none; color: var(--text); display: block;
+      transition: transform .2s, box-shadow .2s, border-color .2s;
+    }
+    .video-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px var(--shadow); border-color: var(--accent); }
+    .vthumb {
+      aspect-ratio: 16/9; background: var(--bg3);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; border-bottom: 1px solid var(--border);
+    }
+    .play-icon {
+      width: 42px; height: 42px; background: var(--accent);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      transition: transform .2s;
+    }
+    .video-card:hover .play-icon { transform: scale(1.1); }
+    .vduration {
+      position: absolute; bottom: .5rem; right: .5rem;
+      background: rgba(0,0,0,.75); color: #fff;
+      font-size: .68rem; font-weight: 700; padding: .15rem .4rem; border-radius: 4px;
+    }
+    .vinfo { padding: 1.1rem; }
+    .vinfo h3 { font-size: .9rem; font-weight: 600; line-height: 1.45; margin-bottom: .5rem; }
+    .vmeta { display: flex; align-items: center; gap: .6rem; font-size: .75rem; color: var(--text2); }
+    .vtopic {
+      background: var(--accent-dim); color: var(--accent);
+      padding: .12rem .45rem; border-radius: 4px; font-size: .68rem; font-weight: 700;
+    }
+
+    /* ABOUT */
+    .about-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .quote-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-left: 3px solid var(--accent); border-radius: 10px;
+      padding: 2.2rem; transition: background .3s;
+    }
+    .quote-text { font-size: 1.15rem; font-weight: 300; line-height: 1.65; font-style: italic; margin-bottom: 1.5rem; }
+    .quote-text strong { color: var(--accent); font-style: normal; font-weight: 700; }
+    .quote-sig { display: flex; align-items: center; gap: .8rem; }
+    .sig-av {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--accent); display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: #0d0d0d;
+    }
+    .sig-name { font-weight: 700; font-size: .9rem; }
+    .sig-role { font-size: .75rem; color: var(--text2); }
+    .about-text p { color: var(--text2); line-height: 1.75; margin-bottom: 1rem; font-size: .97rem; }
+    .about-text p strong { color: var(--text); }
+    .checklist { list-style: none; margin: 1.5rem 0 2rem; display: flex; flex-direction: column; gap: .6rem; }
+    .checklist li { display: flex; align-items: flex-start; gap: .7rem; font-size: .93rem; }
+    .checklist li::before { content: 'checkmark'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+
+    /* CTA */
+    .cta-section { text-align: center; }
+    .cta-box {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 16px; padding: 4rem 3rem;
+      max-width: 640px; margin: 0 auto; transition: background .3s;
+    }
+    .cta-box h2 { margin-bottom: .9rem; }
+    .cta-box p { color: var(--text2); margin-bottom: 2rem; }
+    .cta-actions { display: flex; justify-content: center; gap: .9rem; flex-wrap: wrap; }
+
+    /* FOOTER */
+    footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 3rem 2rem 1.5rem; transition: background .3s; }
+    .footer-inner {
+      max-width: 1140px; margin: 0 auto;
+      display: grid; grid-template-columns: 2fr 1fr 1fr;
+      gap: 3rem; margin-bottom: 2.5rem;
+    }
+    .footer-brand .logo { display: block; margin-bottom: .9rem; }
+    .footer-brand p { font-size: .83rem; color: var(--text2); line-height: 1.6; max-width: 260px; }
+    .footer-col h4 { font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--text2); margin-bottom: 1rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .45rem; }
+    .footer-col a { color: var(--text2); text-decoration: none; font-size: .85rem; transition: color .2s; }
+    .footer-col a:hover { color: var(--accent); }
+    .footer-bottom {
+      max-width: 1140px; margin: 0 auto;
+      padding-top: 1.5rem; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem; font-size: .78rem; color: var(--text2);
+    }
+    .footer-bottom a { color: inherit; text-decoration: none; }
+    .footer-bottom a:hover { color: var(--accent); }
+    .social-links { display: flex; gap: .6rem; margin-top: 1rem; }
+    .social-link {
+      width: 34px; height: 34px; border: 1px solid var(--border); border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text2); text-decoration: none; transition: border-color .2s, color .2s;
+    }
+    .social-link:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+    .hero-text > * { animation: fadeUp .65s ease both; }
+    .hero-text > *:nth-child(1) { animation-delay: .05s; }
+    .hero-text > *:nth-child(2) { animation-delay: .13s; }
+    .hero-text > *:nth-child(3) { animation-delay: .21s; }
+    .hero-text > *:nth-child(4) { animation-delay: .29s; }
+    .hero-text > *:nth-child(5) { animation-delay: .37s; }
+    .hero-visual { animation: fadeUp .65s ease .2s both; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .hero-content { grid-template-columns: 1fr; gap: 3rem; padding-top: 5.5rem; }
+      .channel-card { margin: 0 auto; }
+      .about-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      nav { padding: .85rem 1.2rem; }
+      .nav-links { display: none; }
+      .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      section { padding: 4rem 1.2rem; }
+      .hero { padding: 0 1.2rem; }
+      .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+      .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .cta-box { padding: 2.5rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo">Finanz<span>Lennard</span></a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#themen">Themen</a></li>
+      <li><a href="#videos">Videos</a></li>
+      <li><a href="#ueber-mich">Uber mich</a></li>
+    </ul>
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Theme wechseln">
+      <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <a href="https://www.youtube.com/@FinanzLennard" target="_blank" class="nav-cta">&#9654; YouTube</a>
+  </div>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="toggleMenu()">&#10005;</button>
+  <a href="#themen" onclick="toggleMenu()">Themen</a>
+  <a href="#videos" onclick="toggleMenu()">Videos</a>
+  <a href="#ueber-mich" onclick="toggleMenu()">Uber mich</a>
+  <a href="https://www.youtube.com/@FinanzLennard" target="_blank">YouTube &#9654;</a>
+</div>
+
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-text">
+      <div class="eyebrow">YouTube &middot; Finanzbildung</div>
+      <h1>Dein Geld.<br/>Deine <em>Zukunft.</em></h1>
+      <p class="hero-sub">Aktien, ETFs, Vermogensaufbau &#8211; einfach erklart. Ich zeige dir, wie du kluge Finanzentscheidungen triffst und langfristig Vermogen aufbaust.</p>
+      <div class="hero-actions">
+        <a href="https://www.youtube.com/@FinanzLennard" target="_blank" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.75 15.5V8.5l6.5 3.5-6.5 3.5z"/></svg>
+          Zum Kanal
+        </a>
+        <a href="#videos" class="btn-outline">Neueste Videos</a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="stat-num">100+</div><div class="stat-label">Videos</div></div>
+        <div><div class="stat-num">&#8734;</div><div class="stat-label">Kostenfrei</div></div>
+        <div><div class="stat-num">DE</div><div class="stat-label">Auf Deutsch</div></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="channel-card">
+        <div class="channel-thumb" onclick="window.open('https://www.youtube.com/@FinanzLennard','_blank')">
+          <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="#0d0d0d"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="thumb-badge">Neuestes Video</span>
+        </div>
+        <div class="channel-meta">
+          <div class="avatar">FL</div>
+          <div><div class="channel-name">FinanzLennard</div><div class="channel-sub-label">Finanzbildung auf YouTube</div></div>
+        </div>
+        <div class="video-title">ETFs fur Einsteiger: Alles was du 2025 wissen musst &#128200;</div>
+        <div class="tag-row"><span class="tag">ETF</span><span class="tag">Einsteiger</span><span class="tag">Vermogensaufbau</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-alt" id="themen">
+  <div class="container">
+    <div class="eyebrow">Was dich erwartet</div>
+    <h2>Finanzthemen,<br/>die wirklich zahlen</h2>
+    <p class="lead">Von ETF-Grundlagen bis zu fortgeschrittenen Investmentstrategien &#8211; alles, was du fur deine finanzielle Freiheit brauchst.</p>
+    <div class="topics-grid">
+      <div class="topic-card"><span class="topic-icon">&#128200;</span><h3>Aktien &amp; ETFs</h3><p>Lerne, wie du in Aktien und ETFs investierst und langfristig Vermogen aufbaust.</p></div>
+      <div class="topic-card"><span class="topic-icon">&#127970;</span><h3>Depot &amp; Broker</h3><p>Trade Republic, Scalable Capital, comdirect &#8211; ich vergleiche die besten Anbieter.</p></div>
+      <div class="topic-card"><span class="topic-icon">&#128176;</span><h3>Vermogensaufbau</h3><p>Sparpläne, Diversifikation und langfristige Planung einfach erklart.</p></div>
+      <div class="topic-card"><span class="topic-icon">&#128179;</span><h3>Banking &amp; Konten</h3><p>Girokonten und Kreditkarten im Vergleich &#8211; spare Gebuhren, hol mehr raus.</p></div>
+      <div class="topic-card"><span class="topic-icon">&#8383;</span><h3>Krypto</h3><p>Bitcoin, Ethereum &amp; Co. sachlich erklart &#8211; Chancen und Risiken auf einen Blick.</p></div>
+      <div class="topic-card"><span class="topic-icon">&#128202;</span><h3>Finanz-News</h3><p>Die wichtigsten Marktentwicklungen kompakt und verstandlich aufbereitet.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="videos">
+  <div class="container">
+    <div class="eyebrow">YouTube</div>
+    <h2>Beliebte Videos</h2>
+    <p class="lead">Starte direkt mit deiner Finanzbildung &#8211; hier sind meine meistgesehenen Videos.</p>
+    <div class="videos-grid">
+      <a href="https://www.youtube.com/@FinanzLennard" target="_blank" class="video-card">
+        <div class="vthumb"><div class="play-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="#0d0d0d"><path d="M8 5v14l11-7z"/></svg></div><span class="vduration">15:32</span></div>
+        <div class="vinfo"><h3>ETF Sparplan &#8211; Der komplette Leitfaden fur Einsteiger 2025</h3><div class="vmeta"><span class="vtopic">ETF</span><span>Einsteiger</span></div></div>
+      </a>
+      <a href="https://www.youtube.com/@FinanzLennard" target="_blank" class="video-card">
+        <div class="vthumb"><div class="play-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="#0d0d0d"><path d="M8 5v14l11-7z"/></svg></div><span class="vduration">12:15</span></div>
+        <div class="vinfo"><h3>Trade Republic vs. Scalable Capital &#8211; Welcher Broker ist besser?</h3><div class="vmeta"><span class="vtopic">Broker</span><span>Vergleich</span></div></div>
+      </a>
+      <a href="https://www.youtube.com/@FinanzLennard" target="_blank" class="video-card">
+        <div class="vthumb"><div class="play-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="#0d0d0d"><path d="M8 5v14l11-7z"/></svg></div><span class="vduration">18:44</span></div>
+        <div class="vinfo"><h3>1000&#8364; anlegen &#8211; So wurde ich es machen (Schritt fur Schritt)</h3><div class="vmeta"><span class="vtopic">Investieren</span><span>Strategie</span></div></div>
+      </a>
+    </div>
+    <div style="text-align:center;margin-top:2.5rem;">
+      <a href="https://www.youtube.com/@FinanzLennard" target="_blank" class="btn-primary">Alle Videos ansehen &#8594;</a>
+    </div>
+  </div>
+</section>
+
+<section class="section-alt" id="ueber-mich">
+  <div class="container">
+    <div class="about-inner">
+      <div>
+        <div class="quote-card">
+          <p class="quote-text">"Finanzbildung sollte fur jeden zuganglich sein &#8211; nicht nur fur die, die es sich leisten konnen. Deshalb mache ich <strong>kostenlose Videos auf YouTube</strong>."</p>
+          <div class="quote-sig">
+            <div class="sig-av">L</div>
+            <div><div class="sig-name">Lennard</div><div class="sig-role">FinanzLennard &middot; YouTube Creator</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="about-text">
+        <div class="eyebrow">Uber mich</div>
+        <h2>Hi, ich bin<br/>Lennard &#128075;</h2>
+        <p>Ich betreibe den YouTube-Kanal <strong>FinanzLennard</strong> und erklare dort alles rund um Aktien, ETFs, Geldanlage und personliche Finanzen &#8211; auf Deutsch, verstandlich und kostenlos.</p>
+        <p>Mein Ziel: Dir das notige Wissen geben, damit du selbstbewusste Finanzentscheidungen treffen kannst. Kein Fachjargon, keine versteckte Agenda &#8211; nur ehrliche Finanzbildung.</p>
+        <ul class="checklist">
+          <li>100% kostenlose Inhalte auf YouTube</li>
+          <li>Verstandlich fur Einsteiger &amp; Fortgeschrittene</li>
+          <li>Objektive Broker- und Produktvergleiche</li>
+          <li>Regelmaig neue Videos zu aktuellen Themen</li>
+        </ul>
+        <a href="https://www.youtube.com/@FinanzLennard" target="_blank" class="btn-primary">Kanal abonnieren &#9654;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-box">
+      <div class="eyebrow" style="justify-content:center;margin-bottom:.75rem;">Kein Video verpassen</div>
+      <h2>Jetzt abonnieren<br/>&amp; Durchstarten</h2>
+      <p>Uber 100 Videos warten auf dich. Investieren, sparen, verstehen &#8211; starte heute.</p>
+      <div class="cta-actions">
+        <a href="https://www.youtube.com/@FinanzLennard" target="_blank" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.75 15.5V8.5l6.5 3.5-6.5 3.5z"/></svg>
+          Kostenlos abonnieren
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#" class="logo">Finanz<span>Lennard</span></a>
+      <p>Kostenlose Finanzbildung auf YouTube. Aktien, ETFs, Vermogensaufbau &#8211; verstandlich erklart.</p>
+      <div class="social-links">
+        <a href="https://www.youtube.com/@FinanzLennard" target="_blank" class="social-link" title="YouTube">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.75 15.5V8.5l6.5 3.5-6.5 3.5z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Themen</h4>
+      <ul>
+        <li><a href="#themen">Aktien &amp; ETFs</a></li>
+        <li><a href="#themen">Depot &amp; Broker</a></li>
+        <li><a href="#themen">Vermogensaufbau</a></li>
+        <li><a href="#themen">Banking &amp; Konten</a></li>
+        <li><a href="#themen">Krypto</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Links</h4>
+      <ul>
+        <li><a href="https://www.youtube.com/@FinanzLennard" target="_blank">YouTube</a></li>
+        <li><a href="#ueber-mich">Uber mich</a></li>
+        <li><a href="https://www.diefinanzarena.de" target="_blank">FinanzArena</a></li>
+        <li><a href="mailto:kontakt@finanzlennard.de">Kontakt</a></li>
+        <li><a href="impressum.html">Impressum</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&#169; 2025 FinanzLennard &middot; Keine Anlageberatung.</span>
+    <span><a href="impressum.html">Impressum</a> &middot; <a href="datenschutz.html">Datenschutz</a></span>
+  </div>
+</footer>
+
+<script>
+  function toggleTheme() {
+    const html = document.documentElement;
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('fl-theme', next);
+  }
+  const saved = localStorage.getItem('fl-theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+
+  window.addEventListener('scroll', () => {
+    document.querySelector('nav').style.boxShadow =
+      window.scrollY > 20 ? '0 2px 20px rgba(0,0,0,.15)' : 'none';
+  });
+
+  // Fix checkmark in checklist
+  document.querySelectorAll('.checklist li').forEach(li => {
+    li.style.setProperty('--check', '"\u2713"');
+  });
+</script>
+<style>
+  .checklist li::before { content: "\2713" !important; }
+</style>
+</body>
+</html>
